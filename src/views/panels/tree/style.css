@@ -1,0 +1,55 @@
+.rc-tree .rc-tree-treenode span.rc-tree-switcher,
+.rc-tree .rc-tree-treenode span.rc-tree-iconEle {
+  background-image: none !important;
+  width: fit-content !important;
+  vertical-align: 0 !important;
+}
+
+.rc-tree .rc-tree-treenode {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.rc-tree .rc-tree-treenode .rc-tree-node-content-wrapper {
+  display: flex !important;
+  align-items: center;
+}
+
+.rc-tree .rc-tree-treenode span.rc-tree-iconEle.rc-tree-icon__customize {
+  display: flex !important;
+}
+
+.rc-tree .rc-tree-treenode span.rc-tree-switcher.rc-tree-switcher_open {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.rc-tree .rc-tree-treenode span.rc-tree-switcher.rc-tree-switcher_close {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.rc-tree .rc-tree-treenode span.rc-tree-checkbox {
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 16px;
+  vertical-align: -0.125em;
+  background-color: transparent;
+  background-image: url("../../../assets/show_icon.svg") !important;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  border: 0 none;
+  outline: none;
+  cursor: pointer;
+  background-position: center;
+}
+
+.rc-tree .rc-tree-treenode span.rc-tree-checkbox-checked {
+  background-image: url("../../../assets/hide_icon.svg") !important;
+}
+
+.rc-tree .rc-tree-treenode span.rc-tree-checkbox-indeterminate {
+  background-image: url("../../../assets/show_half_icon.svg") !important;
+}
