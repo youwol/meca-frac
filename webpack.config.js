@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-console.log("path : ", path);
 module.exports = {
   entry: "./src/index.tsx",
   output: {
@@ -9,6 +8,7 @@ module.exports = {
     publicPath: "/",
     filename: "bundle.js",
   },
+  devtool: "source-map", // Enable source maps
   module: {
     rules: [
       {
@@ -18,7 +18,11 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
           },
         },
       },
@@ -57,4 +61,7 @@ module.exports = {
       },
     }),
   ],
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
 };
