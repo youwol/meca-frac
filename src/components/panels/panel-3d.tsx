@@ -4,12 +4,11 @@ import { CanvasContainer } from "../../views/panels/scene/canvas-container";
 
 export const D3Panel = (api: DockviewApi) => {
   const d3Panel = api.addPanel({
-    id: "idD3Panel", // panel_2
+    id: "idD3Panel",
     component: "component_3d",
     params: {
       children: content,
     },
-    // position: {referencePanel: 'idTreeViewPanel', direction: 'right'}
   });
   d3Panel.group.locked = "no-drop-target";
   d3Panel.group.header.hidden = true;
@@ -20,9 +19,4 @@ export const D3Panel = (api: DockviewApi) => {
   return d3Panel;
 };
 
-const content = (
-  <>
-    {/*<h1> 3D content</h1>*/}
-    <CanvasContainer />
-  </>
-);
+const content = <CanvasContainer />;

@@ -1,36 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CirclePicker, HSLColor } from "react-color";
-import { createDivAtCursor } from "../../views/utiles";
-import {
-  defaultColor,
-  paletteBlueRed,
-  palettePurRed,
-  paletteRedPur,
-} from "./color-palettes";
+import { CirclePicker, ColorResult } from "react-color";
+import { defaultColor, palettesArray } from "./color-palettes";
 import { Palette } from "./palette";
-
-interface HSLaColor {
-  h: number;
-  s: number;
-  l: number;
-  a: number;
-}
+import { createDivAtCursor } from "../../utils/generateUniqueId";
 
 export function CircleColorSection(props: {
   title: string;
-  initColor: HSLColor;
-  getColor: (c: HSLColor) => void;
+  initColor: ColorResult;
+  setColor: (c: ColorResult) => void;
 }) {
   const [color, setColor] = useState(props.initColor);
   const refColor = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (refColor.current) {
-      refColor.current.style.backgroundColor = `hsla(${color.h}, ${color.s * 100}%, ${color.l * 100}%, ${color.a})`;
+      refColor.current.style.backgroundColor = `hsla(${color.hsl.h}, ${color.hsl.s * 100}%, ${color.hsl.l * 100}%, ${color.hsl.a})`;
     }
   }, [color]);
-  const handleColor = (c: HSLColor) => {
+  const handleColor = (c: ColorResult) => {
     setColor(c);
-    props.getColor(c);
+    props.setColor(c);
   };
 
   return (
@@ -38,7 +26,6 @@ export function CircleColorSection(props: {
       className={"d-flex w-100 justify-content-start"}
       role={"none"}
       onClick={(ev) => ev.stopPropagation()}
-      // onChange={() => props.onChange(color)}
     >
       <div
         className={"border border-white rounded-circle me-4"}
@@ -48,17 +35,12 @@ export function CircleColorSection(props: {
           position: "relative",
           height: "18px",
           width: "18px",
-          backgroundColor: `hsla(${color.h}, ${color.s * 100}%, ${color.l * 100}%, ${color.a})`,
+          backgroundColor: `hsla(${color.hsl.h}, ${color.hsl.s * 100}%, ${color.hsl.l * 100}%, ${color.hsl.a})`,
         }}
         onClick={(ev) => {
           ev.stopPropagation();
           createDivAtCursor({
-            children: (
-              <CircleContainer
-                initColor={props.initColor}
-                onClick={handleColor}
-              />
-            ),
+            children: <CircleContainer onClick={handleColor} />,
             event: ev,
           });
         }}
@@ -68,9 +50,8 @@ export function CircleColorSection(props: {
   );
 }
 
-const CircleContainer = (props: {
-  initColor: HSLColor;
-  onClick: (c: HSLColor) => void;
+export const CircleContainer = (props: {
+  onClick: (c: ColorResult) => void;
 }) => {
   return (
     <div
@@ -82,19 +63,25 @@ const CircleContainer = (props: {
         zIndex: 1,
       }}
     >
-      <CirclePicker
-        colors={defaultColor}
-        onChangeComplete={(c, e) => props.onClick(c.hsl)}
-      />
+      <CirclePicker colors={defaultColor} onChangeComplete={props.onClick} />
     </div>
   );
 };
 
 export function PaletteColorSection(props: { title: string }) {
+  const [color, setColor] = useState(palettesArray[0].color?.join(", "));
+
+  const handlePalettes = (c: { title: string; color: string }) => {
+    setColor(c.color);
+  };
   const handleClick = (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     ev.stopPropagation();
-    createDivAtCursor({ event: ev, children: <PalettesContainer /> });
+    createDivAtCursor({
+      event: ev,
+      children: <PalettesContainer handleOnclick={handlePalettes} />,
+    });
   };
+
   return (
     <div className={"d-flex w-100 justify-content-start"}>
       <div
@@ -106,7 +93,7 @@ export function PaletteColorSection(props: { title: string }) {
           border: "1px",
           borderColor: "white",
           borderRadius: " 5px",
-          backgroundImage: `linear-gradient(to right, ${paletteRedPur.join(", ")})`,
+          backgroundImage: `linear-gradient(to right, ${color})`,
         }}
         onClick={(ev) => handleClick(ev)}
         role={"none"}
@@ -116,7 +103,9 @@ export function PaletteColorSection(props: { title: string }) {
   );
 }
 
-const PalettesContainer = () => {
+export const PalettesContainer = (props: {
+  handleOnclick: (color: { title: string; color: string }) => void;
+}) => {
   return (
     <div
       className={"bg-black  p-2 rounded text-white "}
@@ -124,15 +113,16 @@ const PalettesContainer = () => {
         position: "absolute",
         width: "30vh",
         top: "100%",
-        // left: "100%",
       }}
     >
-      <Palette title={"Default"} colorPalette={paletteBlueRed.join(", ")} />
-      <Palette title={"Rainbow"} colorPalette={palettePurRed.join(", ")} />
-      {/*<Palette title={"Spectrum"} colorPalette={paletteWhiteRed} />*/}
-      <Palette title={"Insar"} colorPalette={palettePurRed.join(", ")} />
-      <Palette title={"test 1"} colorPalette={paletteBlueRed.join(", ")} />
-      {/*<Palette title={"test 2"} colorPalette={paletteWhiteRed.join(", ")} />*/}
+      {palettesArray.map((palette) => (
+        <Palette
+          key={palette.title}
+          title={palette.title}
+          colorPalette={palette.color?.join(", ")}
+          handlePalette={props.handleOnclick}
+        />
+      ))}
     </div>
   );
 };

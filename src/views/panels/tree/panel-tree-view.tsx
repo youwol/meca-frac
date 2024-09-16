@@ -9,7 +9,7 @@ import { useDataFrameContext } from "../../../context/data-frames/data-frame-con
 
 export const PanelTreeView = (api: DockviewApi) => {
   const TreeView = api.addPanel({
-    id: "idTreeViewPanel", //panel_1
+    id: "idTreeViewPanel",
     tabComponent: "tab_2",
     component: "default",
     position: { referencePanel: "idD3Panel", direction: "left" },
@@ -33,9 +33,9 @@ export const PanelTreeView = (api: DockviewApi) => {
 const TreeViews = () => {
   const { dataframeValue } = useDataFrameContext();
 
-  const [faultsData, setFaultsDataT] = useState<{ key: string; title: any }[]>(
-    [],
-  );
+  const [faultsData, setFaultsData] = useState<
+    { key: string; title: string }[]
+  >([]);
 
   useEffect(() => {
     if (dataframeValue.length > 0) {
@@ -43,7 +43,7 @@ const TreeViews = () => {
         key: `0-0-k-a-${index}`,
         title: item.userData.name,
       }));
-      setFaultsDataT(transformedData);
+      setFaultsData(transformedData);
     }
   }, [dataframeValue]);
 
@@ -55,6 +55,7 @@ const TreeViews = () => {
         {
           key: "0-0-0",
           title: "Faults",
+          isLeaf: false,
           children: faultsData,
         },
         {

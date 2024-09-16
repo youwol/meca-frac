@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { HSLColor } from "react-color";
+import { ColorResult } from "react-color";
 
 interface TransparencyContextProps {
   transparencyValue: number;
@@ -48,14 +48,18 @@ export const TransparencyProvider = ({ children }: { children: ReactNode }) => {
 };
 
 interface ColorContextProps {
-  color: HSLColor;
-  setColor: (color: HSLColor) => void;
+  color: ColorResult;
+  setColor: (color: ColorResult) => void;
 }
-const initColor: HSLColor = {
-  a: 1,
-  h: 112.19040697674419,
-  l: 0.47846099999999997,
-  s: 0.1974296755639436,
+const initColor: ColorResult = {
+  hex: "#fda1ff",
+  hsl: {
+    a: 1,
+    h: 112.19040697674419,
+    l: 0.47846099999999997,
+    s: 0.1974296755639436,
+  },
+  rgb: { r: 253, g: 161, b: 255, a: 1 },
 };
 const ColorContext = createContext<ColorContextProps>({
   color: initColor,
@@ -65,7 +69,7 @@ const ColorContext = createContext<ColorContextProps>({
 export const useSurfaceColorContext = () => useContext(ColorContext);
 
 export const SurfaceColorProvider = ({ children }: { children: ReactNode }) => {
-  const [color, setColor] = useState(initColor); // Default color is white
+  const [color, setColor] = useState(initColor);
 
   const contextValue = useMemo(
     () => ({

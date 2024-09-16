@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ItemDropdownBanner } from "../../../components/preferences/item-dropdown-banner";
 import { ItemDropdown } from "../../../components/preferences/item-dropdown";
 import { ThemeContext } from "../../../context/theme-context";
-interface ThemesProps {
-  onThemeChange: (theme: string) => void;
-}
+
 export function Labels() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

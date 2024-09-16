@@ -139,7 +139,6 @@ const KHValue = (props: { class: string }) => {
         min={0.0}
         max={3.0}
         step={0.01}
-        handleLock={handleLock}
         handleRangeChange={handleRangeChange}
         handleChange={handleChange}
       >
@@ -182,7 +181,6 @@ const KhValue = (props: { class: string }) => {
         min={0.0}
         max={3.0}
         step={0.01}
-        handleLock={handleLock}
         handleRangeChange={handleRangeChange}
         handleChange={handleChange}
       >
@@ -226,7 +224,6 @@ const RValue = (props: { class: string }) => {
         min={0.0}
         max={3.0}
         step={0.01}
-        handleLock={handleLock}
         handleRangeChange={handleRangeChange}
         handleChange={handleChange}
       >
@@ -273,7 +270,6 @@ const Theta = (props: { class: string }) => {
         min={0.0}
         max={180.0}
         step={1.0}
-        handleLock={handleLock}
         handleRangeChange={handleRangeChange}
         handleChange={handleChange}
       >

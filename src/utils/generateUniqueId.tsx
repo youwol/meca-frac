@@ -1,6 +1,14 @@
 import React, { ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 
+export const generateUniqueId = () => {
+  return (
+    "id-" +
+    new Date().getTime() +
+    "-" +
+    Math.random().toString(36).substring(2, 11)
+  );
+};
 export const createDivAtCursor = (param: {
   children: ReactNode;
   event: React.MouseEvent<HTMLDivElement>;
@@ -30,6 +38,5 @@ export const createDivAtCursor = (param: {
       document.removeEventListener("mousedown", handleClickOutside);
     }
   };
-
   document.addEventListener("mousedown", handleClickOutside);
 };

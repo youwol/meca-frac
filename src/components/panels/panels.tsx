@@ -11,29 +11,6 @@ export const PanelDefault = ({
     <div
       className={`test h-100 p-2 overflow-auto text-white ${setClass ?? ""}`}
     >
-      {/*<h1 style={{color: "white"}}>default component</h1>*/}
-      {children}
-    </div>
-  );
-};
-export const PanelPreferences = ({
-  children,
-  customClass,
-}: {
-  children: ReactNode;
-  customClass?: string;
-}) => {
-  return (
-    <div
-      className={`test ${customClass}`}
-      style={{
-        height: "100%",
-        padding: "20px",
-        color: "white",
-        overflow: "auto",
-      }}
-    >
-      {/*<h1 style={{color: "white"}}>default component</h1>*/}
       {children}
     </div>
   );
@@ -50,7 +27,6 @@ export const Panel3D = ({ children }: { children: ReactNode }) => {
         background: "red",
       }}
     >
-      {/*<h1 style={{color: "white"}}>default component</h1>*/}
       {children}
     </div>
   );

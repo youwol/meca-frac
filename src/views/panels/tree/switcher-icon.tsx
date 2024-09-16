@@ -17,7 +17,11 @@ const getSvgIcon = (datas: TreeNodeProps<DataNode>) => (
     <SvgIcon
       customClass={"me-1"}
       icon={datas.expanded && !datas.isLeaf ? FolderOpenIcon : FolderCloseIcon}
-      onclick={(ev: Event) => {
+      onclick={(
+        ev:
+          | React.MouseEvent<HTMLImageElement | HTMLInputElement, MouseEvent>
+          | undefined,
+      ) => {
         ev?.stopPropagation();
       }}
     />

@@ -1,8 +1,6 @@
 import { IOFactory } from "@youwol/io";
 import { DataFrame } from "@youwol/dataframe";
 
-// ------------------------------------------------------------------
-
 enum ObjectType {
   POINT = "Point",
   LINE = "Line",
@@ -17,8 +15,6 @@ objectTypeMap.set("pl", ObjectType.LINE);
 objectTypeMap.set("ts", ObjectType.SURFACE);
 objectTypeMap.set("so", ObjectType.VOLUME);
 
-// ------------------------------------------------------------------
-
 export function loadObject(file: string, buffer: string): Promise<DataFrame[]> {
   return new Promise((resolve, reject) => {
     const filter = IOFactory.getFilter(file);
@@ -28,12 +24,12 @@ export function loadObject(file: string, buffer: string): Promise<DataFrame[]> {
     }
 
     try {
-      const dfs: DataFrame[] = filter.decode(buffer, {
+      const dfs = filter.decode(buffer, {
         shared: false,
         merge: true,
         repair: true,
       });
-      resolve(dfs);
+      resolve(dfs as DataFrame[]);
     } catch (error) {
       reject(error);
     }

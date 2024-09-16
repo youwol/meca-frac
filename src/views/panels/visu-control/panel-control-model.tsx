@@ -1,7 +1,6 @@
 import { DockviewApi } from "dockview";
 import React from "react";
 import {
-  Isocontours,
   FillSection,
   NodesSection,
   MeshSection,
@@ -12,10 +11,11 @@ import BasicDisplayIcon from "../../../assets/panel-tabs/basic_display_icon.svg"
 import FracturePlanesIcon from "../../../assets/panel-tabs/fracture_planes_icon.svg";
 import TensorsPlanesIcon from "../../../assets/panel-tabs/tensors_icon.svg";
 import VectorsPlanesIcon from "../../../assets/panel-tabs/vectors_icon.svg";
+import { FractureTab } from "./fracture";
 
 export const PanelControlModel = (api: DockviewApi) => {
   const controlModelPanel = api.addPanel({
-    id: "idControlVisuPanel", //panel_12
+    id: "idControlVisuPanel",
     component: "default",
     tabComponent: "tab_2",
     params: {
@@ -61,7 +61,6 @@ export const PanelControlModel = (api: DockviewApi) => {
     inactive: true,
     params: {
       icon: TensorsPlanesIcon,
-      // children: isoContourTab,
     },
     position: { referenceGroup: controlModelPanel.group },
   });
@@ -72,7 +71,6 @@ export const PanelControlModel = (api: DockviewApi) => {
     inactive: true,
     params: {
       icon: VectorsPlanesIcon,
-      // children: isoContourTab,
     },
     position: { referenceGroup: controlModelPanel.group },
   });
@@ -87,7 +85,6 @@ const DisplayTab = (
     <MeshSection />
   </div>
 );
-7;
 
 const IsoContourTab = (
   <div>
@@ -97,6 +94,6 @@ const IsoContourTab = (
 
 const FracturePlanesTab = (
   <div>
-    <Isocontours />
+    <FractureTab />
   </div>
 );

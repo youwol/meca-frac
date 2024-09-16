@@ -12,6 +12,7 @@ interface ThemeContextProps {
   changeTheme: (newTheme: string) => void;
   loadTheme: (themeName: string) => void;
 }
+
 export const ThemeContext = createContext<ThemeContextProps>({
   theme: "dark",
   changeTheme: (newTheme: string) => {},
@@ -31,12 +32,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const loadTheme = (themeName: string) => {
     const link = document.getElementById("theme-stylesheet") as HTMLLinkElement;
     if (link) {
-      link.href = `/styles/themes/${themeName}-theme.css`;
+      link.href = `build/styles/themes/${themeName}-theme.css`;
     } else {
       const newLink = document.createElement("link");
       newLink.rel = "stylesheet";
       newLink.id = "theme-stylesheet";
-      newLink.href = `/styles/themes/${themeName}-theme.css`;
+      newLink.href = `build/styles/themes/${themeName}-theme.css`;
       document.head.appendChild(newLink);
     }
   };

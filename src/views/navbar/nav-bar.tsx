@@ -1,13 +1,13 @@
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { UploadFiles } from "./file/upload-files";
-import { RecentFiles } from "./file/recent-files";
-import { Preferences } from "./edit/preferences";
-import { Quit } from "./file/quit";
-import { About } from "./help/about";
-import "../main.css";
-import { WindowsViews } from "./windows/windows-views";
-import { Logo } from "../components/icons/logo";
+import { UploadFiles } from "../file/upload-files";
+import { RecentFiles } from "../file/recent-files";
+import { Preferences } from "../edit/preferences";
+import { Quit } from "../file/quit";
+import { About } from "../help/about";
+import "../../main.css";
+import { WindowsViews } from "../windows/windows-views";
+import { Logo } from "../../components/icons/logo";
 
 export function NavBar() {
   return (

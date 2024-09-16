@@ -1,6 +1,14 @@
 import React from "react";
-export function Palette(props: { title: string; colorPalette: string }) {
-  const { title, colorPalette } = props;
+
+export function Palette(props: {
+  title: string;
+  colorPalette: string;
+  handlePalette?: (color: { title: string; color: string }) => void;
+}) {
+  const { title, colorPalette, handlePalette } = props;
+  const handleOnclick = () => {
+    if (handlePalette) handlePalette({ title: title, color: colorPalette });
+  };
   return (
     <div>
       <div>{title}</div>
@@ -13,6 +21,8 @@ export function Palette(props: { title: string; colorPalette: string }) {
           borderRadius: " 5px",
           backgroundImage: `linear-gradient(to right, ${colorPalette})`,
         }}
+        role={"none"}
+        onClick={handleOnclick}
       />
     </div>
   );

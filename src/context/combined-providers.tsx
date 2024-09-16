@@ -7,7 +7,7 @@ import { CombinedBasicProviders } from "./display-panel/basic/combined-basic-pro
 import { CombinedControlProviders } from "./control-panel/combined-control-provided";
 import { DataFrameProvider } from "./data-frames/data-frame-context";
 
-export function CombinedProviders({ children }: { children: ReactNode }) {
+export function CombinedProviders(props: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <DockApiProvider>
@@ -15,7 +15,9 @@ export function CombinedProviders({ children }: { children: ReactNode }) {
           <WindowProvider>
             <CombinedControlProviders>
               <DataFrameProvider>
-                <CombinedBasicProviders>{children}</CombinedBasicProviders>
+                <CombinedBasicProviders>
+                  {props.children}
+                </CombinedBasicProviders>
               </DataFrameProvider>
             </CombinedControlProviders>
           </WindowProvider>

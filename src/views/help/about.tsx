@@ -43,27 +43,30 @@ export function About() {
         <Modal.Body
           style={{
             ...bgStyleImg,
-            backgroundImage:
-              "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5))",
+            backgroundImage: `url(${AboutStressImg}),linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${AboutBgImg})`,
+            backgroundSize: "cover , auto",
+            backgroundPosition: `center, right`,
+            backgroundRepeat: `no-repeat, no-repeat`,
+            backgroundBlendMode: "soft-light, multiply",
           }}
         >
-          <Row>
+          <Row style={{ fontSize: "14px", color: "#cbc9bd" }}>
             <div className={sharedClassName}>
-              <h5 className={"me-2"}>MecaFrac:</h5>
+              <p className={"me-2"}>MecaFrac:</p>
               <p>{"v. 1.0"}</p>
             </div>
             <div className={sharedClassName}>
-              <h5 className={"me-2"}>Arch:</h5>
+              <p className={"me-2"}>Arch:</p>
               <p>v. 1.0</p>
             </div>
             <div className={sharedClassName}>
-              <h5 className={"me-2"}>Build date:</h5>
+              <p className={"me-2"}>Build date:</p>
               <p>June 6 2024</p>
             </div>
             <div className={sharedClassName}>
-              <h5 className={"me-2"}>
+              <p className={"me-2"}>
                 © 2019-2024 YouWol. All rights reserved.
-              </h5>
+              </p>
               <p></p>
             </div>
             <div className={sharedClassName}>
@@ -73,9 +76,6 @@ export function About() {
             </div>
           </Row>
         </Modal.Body>
-        {/*<Modal.Footer>*/}
-        {/*    <Button onClick={() => setModalShow(false)}>Close</Button>*/}
-        {/*</Modal.Footer>*/}
       </Modal>
     </>
   );

@@ -1,14 +1,21 @@
 import { NavDropdown } from "react-bootstrap";
 import React, { useState } from "react";
-import { PopupWindow } from "../preferences/popup-window";
+import { Logo } from "../../components/icons/logo";
+import { ActivePreferencesTabProvider } from "../../context/active-preferences-tab-context";
+import { PreferencesContainer } from "../preferences/preferences-container";
+import ResizableDraggablePopup from "../../components/custom-popup";
 
-export function Preferences() {
+export const Preferences = () => {
   const [popupWindow, setPopupWindow] = useState(false);
 
-  const handlePopupWindow = () => {
-    setPopupWindow(!popupWindow);
+  const handlePopupWindow = (ev: { stopPropagation: () => void }) => {
+    ev.stopPropagation();
+    setPopupWindow(true);
   };
 
+  const handleCloseBox = () => {
+    setPopupWindow(false);
+  };
   return (
     <>
       <NavDropdown.Item
@@ -18,7 +25,21 @@ export function Preferences() {
         <div className={"me-5"}>Preferences</div>
         <div> Ctrl+S</div>
       </NavDropdown.Item>
-      {popupWindow ? PopupWindow() : null}
+      {popupWindow && (
+        <ResizableDraggablePopup
+          title={"Preferences"}
+          icon={<Logo />}
+          onClose={handleCloseBox}
+        >
+          {content}
+        </ResizableDraggablePopup>
+      )}
     </>
   );
-}
+};
+
+const content = (
+  <ActivePreferencesTabProvider>
+    <PreferencesContainer />
+  </ActivePreferencesTabProvider>
+);

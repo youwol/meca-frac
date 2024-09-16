@@ -1,26 +1,40 @@
 import chroma from "chroma-js";
 
-export const paletteRedPur = chroma
-  .scale(["red", "yellow", "green", "aqua", "blue", "purple"])
-  .colors(10);
+export interface Palette {
+  title: string;
+  color: string[];
+}
 
-export const paletteBlueRed = chroma
-  .scale(["blue", "aqua", "green", "yellow", "red"])
-  .colors(10);
-export const palettePurRed = chroma
-  .scale(["purple", "blue", "aqua", "green", "yellow", "red"])
-  .colors(10);
-export const paletteWhiteRed = chroma.scale([
-  "white",
-  "red",
-  "purple",
-  "blue",
-  "aqua",
-  "green",
-  "yellow",
-  "red",
-]);
-// .domain([0, 0.1, 0.2, 0.3, 0.4, 0.55, 0.85, 1]);
+export const paletteRedPur: Palette = {
+  title: "Default",
+  color: chroma
+    .scale(["red", "yellow", "green", "aqua", "blue", "purple"])
+    .colors(10),
+};
+
+export const paletteBlueRed: Palette = {
+  title: "Insar",
+  color: chroma.scale(["blue", "aqua", "green", "yellow", "red"]).colors(10),
+};
+export const palettePurRed: Palette = {
+  title: "Rainbow",
+  color: chroma
+    .scale(["purple", "blue", "aqua", "green", "yellow", "red"])
+    .colors(10),
+};
+export const paletteWhiteRed: Palette = {
+  title: "Spectrum",
+  color: chroma
+    .scale(["white", "red", "purple", "blue", "aqua", "green", "yellow", "red"])
+    .colors(12),
+};
+
+export const palettesArray = [
+  paletteRedPur,
+  paletteBlueRed,
+  palettePurRed,
+  paletteWhiteRed,
+];
 
 export const defaultColor = [
   "#4D4D4D",

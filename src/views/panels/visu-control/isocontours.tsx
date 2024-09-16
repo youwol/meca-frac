@@ -1,13 +1,14 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ItemDropdownBanner } from "../../../components/preferences/item-dropdown-banner";
 import { ItemDropdown } from "../../../components/preferences/item-dropdown";
-import { HSLColor, RGBColor, SketchPicker } from "react-color";
+import { ColorResult } from "react-color";
 import {
   CircleColorSection,
   PaletteColorSection,
 } from "../../../components/color/circle-color-section";
 import { SvgIcon } from "../../../components/icons/svg-icon";
 import ShowIcon from "../../../assets/show_icon.svg";
+import PreferencesIcon from "../../../assets/preferences_icon_dark.svg";
 import { RadioOption } from "../../../components/radio-option";
 import { useShapeContext } from "../../../context/display-panel/basic/shape";
 import { RangeSlider } from "../../../components/range-slider";
@@ -20,38 +21,12 @@ import {
   useNodeColorContext,
   useSizeContext,
 } from "../../../context/display-panel/basic/nodes";
-
-export function Isocontours() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [color, setColor] = useState("#aabbcc");
-  const handleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-  const handleColorChangeComplete = (color: any) => {
-    setColor(color.hsl);
-  };
-  return (
-    <>
-      <ItemDropdownBanner handleDropdown={handleDropdown} isOpen={isOpen}>
-        <Header />
-      </ItemDropdownBanner>
-      <ItemDropdown class={!isOpen ? "d-none" : ""}>
-        <div>
-          <SketchPicker color={color} onChange={handleColorChangeComplete} />
-        </div>
-      </ItemDropdown>
-    </>
-  );
-}
+import { CustomInput } from "../../../components/custom-input";
+import ResizableDraggablePopup from "../../../components/custom-popup";
 
 export function FillSection() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const initColor = {
-    h: 0,
-    s: 0.735056823110957,
-    l: 0.4187759099999999,
-    a: 1,
-  };
+
   const handleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -60,7 +35,7 @@ export function FillSection() {
       <ItemDropdownBanner
         handleDropdown={handleDropdown}
         isOpen={isOpen}
-        eyeIcon={<SvgIcon icon={ShowIcon} />}
+        actions={<SvgIcon icon={ShowIcon} />}
       >
         <PaletteColorSection title={"Fill"} />
       </ItemDropdownBanner>
@@ -81,10 +56,14 @@ export function SurfaceSection() {
   };
 
   const initColor = {
-    a: 1,
-    h: 112.19040697674419,
-    l: 0.47846099999999997,
-    s: 0.1974296755639436,
+    hex: "#fda1ff",
+    hsl: {
+      a: 1,
+      h: 112.19040697674419,
+      l: 0.47846099999999997,
+      s: 0.1974296755639436,
+    },
+    rgb: { r: 253, g: 161, b: 255, a: 1 },
   };
 
   useEffect(() => {
@@ -96,17 +75,18 @@ export function SurfaceSection() {
       <ItemDropdownBanner
         handleDropdown={handleDropdown}
         isOpen={isOpen}
-        eyeIcon={<SvgIcon icon={ShowIcon} />}
+        actions={<SvgIcon icon={ShowIcon} />}
       >
         <CircleColorSection
           title={"Surface"}
           initColor={color}
-          getColor={(c) => setColor(c)}
+          setColor={(c) => setColor(c)}
         />
       </ItemDropdownBanner>
       <ItemDropdown class={!isOpen ? "d-none" : ""}>
         <div>
           <Transparency />
+          <SurfaceProperties />
           {/*<Divider />*/}
         </div>
       </ItemDropdown>
@@ -147,6 +127,66 @@ const Transparency = () => {
   );
 };
 
+const SurfaceProperties = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [lightingChecked, setLightingChecked] = useState(true);
+  const [flatChecked, setFlatChecked] = useState(true);
+
+  const handleCloseBox = () => {
+    setShowPopup(false);
+  };
+  const handleOpenModal = () => {
+    setShowPopup(true);
+  };
+  const handleLightingChange = (e: number | boolean) => {
+    setLightingChecked(e as boolean);
+  };
+
+  const handleFlatChange = (e: number | boolean) => {
+    setFlatChecked(e as boolean);
+  };
+  return (
+    <div className={"d-flex flex-column  m-2"}>
+      <div className={"d-flex w-100 justify-content-between"}>
+        <CustomInput
+          name={"surfaceProperties"}
+          title={"Lighting"}
+          id={"1"}
+          value={lightingChecked}
+          type={"checkbox"}
+          handleOnchange={handleLightingChange}
+          disabled={false}
+        />
+        <div>
+          <SvgIcon icon={PreferencesIcon} onclick={handleOpenModal} />
+          {showPopup && (
+            <ResizableDraggablePopup
+              title={"test"}
+              icon={<SvgIcon icon={PreferencesIcon} />}
+              onClose={handleCloseBox}
+            >
+              <p>This is a resizable and draggable popup window.</p>
+              <p>You can put any content here.</p>
+            </ResizableDraggablePopup>
+          )}
+        </div>
+      </div>
+      <div className={"d-flex w-100 justify-content-between"}>
+        <CustomInput
+          name={"surfaceProperties"}
+          title={"Flat"}
+          id={"2"}
+          value={flatChecked}
+          type={"checkbox"}
+          handleOnchange={handleFlatChange}
+          disabled={false}
+        />
+        <SvgIcon icon={PreferencesIcon} />
+      </div>
+    </div>
+  );
+};
+
 export function NodesSection() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { color, setColor } = useNodeColorContext();
@@ -156,10 +196,14 @@ export function NodesSection() {
   };
 
   const initColor = {
-    h: 0,
-    s: 0.135436823110957,
-    l: 0.6187759099999999,
-    a: 1,
+    hex: "#fda1ff",
+    hsl: {
+      a: 1,
+      h: 112.19040697674419,
+      l: 0.47846099999999997,
+      s: 0.1974296755639436,
+    },
+    rgb: { r: 253, g: 161, b: 255, a: 1 },
   };
   useEffect(() => {
     setColor(initColor);
@@ -170,12 +214,12 @@ export function NodesSection() {
       <ItemDropdownBanner
         handleDropdown={handleDropdown}
         isOpen={isOpen}
-        eyeIcon={<SvgIcon icon={ShowIcon} />}
+        actions={<SvgIcon icon={ShowIcon} />}
       >
         <CircleColorSection
           title={"Nodes"}
           initColor={color}
-          getColor={setColor}
+          setColor={setColor}
         />
       </ItemDropdownBanner>
       <ItemDropdown class={!isOpen ? "d-none" : ""}>
@@ -260,16 +304,20 @@ const NodeCircleSquare = () => {
 
 export function MeshSection() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [color, setColor] = useState<HSLColor>();
+  const [color, setColor] = useState<ColorResult>();
   const handleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const initColor = {
-    a: 1,
-    h: 118.19040697674419,
-    l: 0.47846099999999997,
-    s: 0.7974296755639436,
+    hex: "#fda1ff",
+    hsl: {
+      a: 1,
+      h: 112.19040697674419,
+      l: 0.47846099999999997,
+      s: 0.1974296755639436,
+    },
+    rgb: { r: 253, g: 161, b: 255, a: 1 },
   };
   useEffect(() => {
     setColor(initColor);
@@ -279,7 +327,7 @@ export function MeshSection() {
       <ItemDropdownBanner
         handleDropdown={handleDropdown}
         isOpen={isOpen}
-        eyeIcon={<SvgIcon icon={ShowIcon} />}
+        actions={<SvgIcon icon={ShowIcon} />}
       ></ItemDropdownBanner>
       <ItemDropdown class={!isOpen ? "d-none" : ""}>
         <div>
@@ -289,43 +337,3 @@ export function MeshSection() {
     </>
   );
 }
-
-type ColorOptions = {
-  hex: string;
-  hsl: HSLColor;
-  rgb: RGBColor;
-};
-
-const Header = () => {
-  const [selectedOption, setSelectedOption] = useState("disk");
-  const { setCircle, setSquare } = useShapeContext();
-  const handleRadioChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSelectedOption(event.target.value);
-    if (event.target.value === "disk") {
-      setSquare(false);
-      setCircle(true);
-    } else {
-      setSquare(true);
-      setCircle(false);
-    }
-  };
-  return (
-    <RadioOption
-      name={"circleSquare"}
-      options={[
-        {
-          title: "Disk",
-          value: "disk",
-        },
-        {
-          title: "Square",
-          value: "square",
-        },
-      ]}
-      selectedOption={selectedOption}
-      handleRadioChange={handleRadioChange}
-    />
-  );
-};

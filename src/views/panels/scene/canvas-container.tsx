@@ -1,14 +1,21 @@
 import React from "react";
-import * as THREE from "three";
-import { DoubleSide, TypedArray } from "three";
-
+import {
+  BufferAttribute,
+  BufferGeometry,
+  Color,
+  DoubleSide,
+  Mesh,
+  MeshBasicMaterial,
+  TypedArray,
+} from "three";
 import { Canvas } from "@react-three/fiber";
 import {
+  Center,
   Environment,
   GizmoHelper,
   GizmoViewport,
-  OrbitControls,
   PerspectiveCamera,
+  TrackballControls,
 } from "@react-three/drei";
 import { useNodeColorContext } from "../../../context/display-panel/basic/nodes";
 import { useDataFrameContext } from "../../../context/data-frames/data-frame-context";
@@ -24,22 +31,31 @@ export function CanvasContainer() {
     <div id={"canvas-container"} className={"w-100 h-100 "}>
       <Canvas
         shadows
-        camera={{ position: [10, 12, 12], fov: 25 }}
         style={{
-          backgroundColor: `hsl(${color.h}, ${color.s * 100}%, ${color.l * 100}%)`,
+          backgroundColor: `hsl(${color.hsl.h}, ${color.hsl.s * 100}%, ${color.hsl.l * 100}%)`,
         }}
-        title={"canva"}
+        title={"canvas"}
       >
-        {renderMesh.map((m) => m)}
-        <OrbitControls makeDefault={true} />
+        <PerspectiveCamera
+          makeDefault
+          fov={90}
+          position={[240, 420, 240]}
+          near={0.0001}
+          far={10000}
+        />
+        <group>
+          <Center>{renderMesh.map((m) => m)}</Center>
+        </group>
+        <gridHelper scale={100} args={[30, 30, "red", "gray"]} />
+        <TrackballControls />
         <Environment preset="studio" />
+
         <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
           <GizmoViewport
             axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
             labelColor="white"
           />
         </GizmoHelper>
-        {/*<PerspectiveCamera makeDefault />*/}
       </Canvas>
     </div>
   );
@@ -50,24 +66,29 @@ function meshesArray(dataframeValue: DataFrame[]) {
     const vertices = dataframe.series.positions.array as TypedArray;
     const indices = dataframe.series.indices.array as TypedArray;
 
-    console.log("v :", vertices);
-    console.log("i :", indices);
+    const geom = new BufferGeometry();
 
-    const geom = new THREE.BufferGeometry();
+    geom.setIndex(new BufferAttribute(indices, 1));
+    geom.setAttribute("position", new BufferAttribute(vertices, 3));
 
-    geom.setIndex(new THREE.BufferAttribute(indices, 1));
-    geom.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xff0000,
+    const material = new MeshBasicMaterial({
+      color: new Color(randColor()),
       side: DoubleSide,
       visible: true,
     });
 
-    return new THREE.Mesh(geom, material);
+    return new Mesh(geom, material);
   });
 }
 
-function meshRenderer({ meshes }: { meshes: THREE.Mesh[] }) {
-  return meshes.map((mesh, index) => <primitive key={index} object={mesh} />);
+function meshRenderer({ meshes }: { meshes: Mesh[] }) {
+  return meshes.map((mesh) => (
+    <primitive key={mesh.id} object={mesh} scale={0.01} position={[0, 0, 0]} />
+  ));
 }
+
+const randColor = () => {
+  const color = new Color(0xffffff);
+  color.setHex(Math.random() * 0xffffff);
+  return "#" + color.getHexString();
+};

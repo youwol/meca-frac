@@ -9,21 +9,33 @@ import { UndoRedo } from "./general/undo-redo";
 
 export function PreferencesContainer() {
   return (
-    <div className={"d-flex "}>
+    <div className={"d-flex h-100"}>
       <div
-        className={"w-25 h-100 d-flex flex-column"}
+        className={"w-25 h-100 d-flex flex-column p-1"}
         style={{ backgroundColor: "#313027" }}
       >
-        <PreferencesBtn id={"default"} title={"General"} />
+        <PreferencesBtn
+          id={"default"}
+          title={"General"}
+          customClass={"rounded-top-2"}
+        />
         <PreferencesBtn id={"userInterfaceId"} title={"User interface"} />
         <PreferencesBtn
           id={"conventionAndUnitsId"}
           title={"Convention & Units"}
         />
         <PreferencesBtn id={"3DSceneId"} title={"3D Scene"} />
-        <PreferencesBtn id={"archId"} title={"Arch"} />
+        <PreferencesBtn
+          id={"archId"}
+          title={"Arch"}
+          customClass={"rounded-bottom-2"}
+        />
       </div>
-      <div id={"preferencesWindowId"} className={"w-75 h-100"}>
+      <div
+        id={"preferencesWindowId"}
+        className={"w-75 h-100"}
+        style={{ backgroundColor: "#22211B" }}
+      >
         <PreferencesContent id={"default"}>
           <AutoSaving />
           <ColorScheme />
@@ -43,7 +55,6 @@ export function PreferencesContainer() {
           <div></div>
         </PreferencesContent>
       </div>
-      {/*<TabGeneral/>*/}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+
 interface WindowContextProps {
   closeWindow: boolean;
   handleCloseWindow: () => void;

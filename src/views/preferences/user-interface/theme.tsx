@@ -1,12 +1,7 @@
-import React, { useState } from "react";
-import { useContext, useEffect } from "react";
-import { ThemeContext } from "../../../context/theme-context";
+import React, { useEffect, useState } from "react";
+import { useTheme } from "../../../context/theme-context";
 import { ItemDropdown } from "../../../components/preferences/item-dropdown";
 import { ItemDropdownBanner } from "../../../components/preferences/item-dropdown-banner";
-
-interface ThemesProps {
-  onThemeChange: (theme: string) => void;
-}
 
 export function Theme() {
   const themes = [
@@ -14,7 +9,7 @@ export function Theme() {
     { name: "Dark", value: "dark" },
   ];
 
-  const { theme, changeTheme, loadTheme } = useContext(ThemeContext);
+  const { theme, changeTheme, loadTheme } = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const handleThemeChange = (newTheme: string) => {
     changeTheme(newTheme);

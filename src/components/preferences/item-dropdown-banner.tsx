@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode } from "react";
 
 interface ItemDropdownBannerProps {
+  id?: string;
   title?: string;
   children?: ReactNode;
   icon?: {
@@ -9,18 +10,19 @@ interface ItemDropdownBannerProps {
   };
   customClass?: string;
   isOpen: boolean;
-  handleDropdown: () => void;
-  eyeIcon?: ReactNode;
+  handleDropdown: (ev?: any) => void;
+  actions?: ReactNode;
 }
 
 export function ItemDropdownBanner(props: ItemDropdownBannerProps) {
   const {
+    id,
     title,
     children,
     icon,
     customClass,
     isOpen,
-    eyeIcon,
+    actions,
     handleDropdown,
   } = props;
   const isOpenRotate90 = isOpen ? "right" : "up";
@@ -28,6 +30,7 @@ export function ItemDropdownBanner(props: ItemDropdownBannerProps) {
   const isRotated = customClass ? isOpenRotate90 : isOpenNormal;
   return (
     <div
+      id={id}
       role={"none"}
       className={`d-flex  ${customClass ?? "py-2"} pointer h-100 align-items-center justify-content-start yw-btn-bg-darker text-white border-0 btn-h-30 yw-btn-text`}
       onClick={handleDropdown}
@@ -46,13 +49,12 @@ export function ItemDropdownBanner(props: ItemDropdownBannerProps) {
         </span>
       )}
       <div
-        className={children ? "d-flex w-100 justify-content-start" : ""}
+        className={children ? "d-flex w-100 justify-content-start" : "w-100"}
         style={customClass ? { transform: " rotateZ(180deg)" } : {}}
       >
         {title ?? children}
       </div>
-      {eyeIcon}
-      <div>{/* drag and drop feature*/}</div>
+      <div className={"w-100 text-end px-2"}>{actions}</div>
     </div>
   );
 }

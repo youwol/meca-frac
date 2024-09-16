@@ -8,7 +8,7 @@ import {
 import * as React from "react";
 import { ReactNode, useEffect, useRef } from "react";
 import "dockview/dist/styles/dockview.css";
-import { NavBar } from "../views/nav-bar";
+import { NavBar } from "../views/navbar/nav-bar";
 import {
   Panel3D,
   PanelDefault,
@@ -16,18 +16,21 @@ import {
 } from "../components/panels/panels";
 import { D3Panel } from "../components/panels/panel-3d";
 import { PanelTreeView } from "../views/panels/tree/panel-tree-view";
-import { Panel2d } from "../components/panels/panel-2d";
-import { ModelControlePanel } from "../views/panels/model-control/model-controle-panel";
+import { Panel2d } from "../views/panels/panel-2d/panel-2d";
+import { ModelControlPanel } from "../views/panels/model-control/model-control-panel";
 import { PanelControlModel } from "../views/panels/visu-control/panel-control-model";
 import { useDockApi } from "../context/dock-api-context";
 import { useToggleViewsContext } from "../context/toggle-views-context";
 import { useWindowContext } from "../context/window-context";
 import { WindowContextType } from "../views/file/quit";
 
+interface IPanelParams {
+  children: ReactNode;
+  setClass?: string;
+}
+
 const components = {
-  default: (
-    props: IDockviewPanelProps<{ children: ReactNode; setClass?: string }>,
-  ) => {
+  default: (props: IDockviewPanelProps<IPanelParams>) => {
     return (
       <PanelDefault setClass={props.params.setClass}>
         {" "}
@@ -60,7 +63,7 @@ export const Home = (props: { theme?: string }) => {
       api.clear();
       D3Panel(api);
       if (treeViewChecked) {
-        PanelTreeView(api); // all panels depends on this
+        PanelTreeView(api);
       }
       if (graphChecked) {
         Panel2d(api);
@@ -69,7 +72,7 @@ export const Home = (props: { theme?: string }) => {
         PanelControlModel(api);
       }
       if (controlChecked) {
-        ModelControlePanel(api);
+        ModelControlPanel(api);
       }
     }
   }, [treeViewChecked, informationChecked, controlChecked, graphChecked]);
@@ -96,7 +99,6 @@ export const Home = (props: { theme?: string }) => {
           tabComponents={tabsComponents}
           disableDnd={true}
           className={`${props.theme || "dockview-theme-abyss"}`}
-          // locked={true}
           hideBorders={true}
         />
       </div>

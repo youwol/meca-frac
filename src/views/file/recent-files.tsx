@@ -22,7 +22,7 @@ export function RecentFiles() {
 
       const reader = new FileReader();
       reader.onload = () => {
-        const fileContent = reader.result as string;
+        //
       };
       reader.onerror = (error) => {
         console.error("Error reading file:", error);
@@ -46,7 +46,7 @@ export function RecentFiles() {
           {recentFiles.map((file, index) => {
             return (
               <NavDropdown.Item
-                key={index}
+                key={`index-${index}`}
                 className={"d-flex justify-content-between"}
                 onClick={() => handleOpenFile(file)}
               >
