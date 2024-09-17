@@ -12,5 +12,5 @@ jobs:
     name: Typescript
     uses: youwol/nestor/.github/workflows/typescript-ci.yaml@v3
     with:
-      skip: autogen doc
+      skip: autogen doc tests
 
