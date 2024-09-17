@@ -1,7 +1,8 @@
 {
   "name": "meca-frac",
   "description": "Light version of Arch app",
-  "version": "0.1.0",
+  "version": "0.1.0-wip",
+  "license": "MIT",
   "author": "jmelad@youwol.com",
   "main": "build/index.html",
   "baseUrl": "/applications/meca-franc/0.1.0/",
