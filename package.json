@@ -23,6 +23,8 @@
     "@react-three/drei": "^9.112.0",
     "@react-three/fiber": "^8.17.7",
     "@reduxjs/toolkit": "^2.2.7",
+    "@rsbuild/core": "^1.0.4",
+    "@rsbuild/plugin-react": "^1.0.2",
     "@types/chroma-js": "^2.1.0",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.2.65",
@@ -58,9 +60,9 @@
     "three": "0.168.0"
   },
   "scripts": {
-    "start": "webpack serve --mode development",
-    "startDefaul": "react-scripts start",
-    "build": "PUBLIC_URL=./build/ react-scripts build ",
+    "start": "rsbuild dev",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "serve": "http-server -p 4000"
