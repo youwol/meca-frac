@@ -4,8 +4,7 @@
   "version": "0.1.0-wip",
   "license": "MIT",
   "author": "jmelad@youwol.com",
-  "main": "build/index.html",
-  "baseUrl": "/applications/meca-franc/0.1.0/",
+  "main": "dist/index.html",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
