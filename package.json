@@ -9,7 +9,6 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
     "typescript": "^5.4.5"
   },
   "youwol": {
@@ -64,7 +63,6 @@
     "build": "rsbuild build",
     "preview": "rsbuild preview",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
     "serve": "http-server -p 4000"
   },
   "browserslist": {
