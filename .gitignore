@@ -23,3 +23,4 @@ cdn.zip
 __pycache__
 *.iml
 .template
+dist/
