@@ -14,7 +14,7 @@ class PipelineFactory(IPipelineFactory):
     async def get(self, _env: YouwolEnvironment, ctx: Context):
         config = PipelineConfig(
             target=BrowserApp(
-                displayName="MecaFranc",
+                displayName="MecaFrac",
                 execution=Execution(standalone=True),
                 graphics=BrowserAppGraphics(
                     appIcon=icon(size_px='100%', border_radius='15%', icon_path=app_icon),
@@ -40,7 +40,7 @@ class PipelineFactory(IPipelineFactory):
 folder_path = Path(__file__).parent.parent
 pkg_json = parse_json(folder_path / "package.json")
 
-assets_dir = f"/api/assets-gateway/raw/package/bWVjYS1mcmFuYw==/{pkg_json['version']}/build/img"
+assets_dir = f"/api/assets-gateway/raw/package/bWVjYS1mcmFj/{pkg_json['version']}/dist/img"
 app_icon = f"url('{assets_dir}/MECAFRAC_LIGHT.svg')"
 
 
