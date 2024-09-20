@@ -32,13 +32,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const loadTheme = (themeName: string) => {
     const link = document.getElementById("theme-stylesheet") as HTMLLinkElement;
     if (link) {
-      link.href = `build/styles/themes/${themeName}-theme.css`;
-    } else {
-      const newLink = document.createElement("link");
-      newLink.rel = "stylesheet";
-      newLink.id = "theme-stylesheet";
-      newLink.href = `build/styles/themes/${themeName}-theme.css`;
-      document.head.appendChild(newLink);
+      link.href += `${themeName}-theme.css`;
     }
   };
   const contextValue = useMemo(
