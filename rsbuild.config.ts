@@ -1,6 +1,7 @@
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
 import * as path from 'node:path'
+
 const version = require('./package.json').version
 
 export default defineConfig({
@@ -13,8 +14,5 @@ export default defineConfig({
             root: 'dist',
         },
         assetPrefix: `${version}/dist/`,
-    },
-    source: {
-        tsconfigPath: path.join(__dirname, 'tsconfig.json'),
     },
 })
