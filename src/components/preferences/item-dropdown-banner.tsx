@@ -10,7 +10,7 @@ interface ItemDropdownBannerProps {
     }
     customClass?: string
     isOpen: boolean
-    handleDropdown: (ev?: any) => void
+    handleDropdown: (ev?: React.MouseEvent) => void
     actions?: ReactNode
 }
 
