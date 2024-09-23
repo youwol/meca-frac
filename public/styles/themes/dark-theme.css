@@ -1,0 +1,17 @@
+:root {
+  --bs-light-rgb: #000 !important;
+  --bs-nav-links-color: #fff !important;
+  --dock-tabs-container-bg: #808080 !important;
+  --bs-dropdown-link-bg-c: #474538 !important;
+  --bs-dropdown-link-hover-bg-c: #565446 !important;
+
+  /*    Dockview */
+  --c-dv-activegroup-visiblepanel-tab-background-color: #474538 !important;
+  --c-dv-inactivegroup-visiblepanel-tab-background-color: rgba(
+    71,
+    69,
+    56,
+    0.68
+  ) !important;
+  --c-dv-group-view-background-color: #22211b !important;
+}

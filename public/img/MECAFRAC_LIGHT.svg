@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 283.46 283.46">
+
+<defs>
+
+<style>
+.cls-1{fill:url(#linear-gradient);}.cls-2{fill:#0e810e;}.cls-3{fill:#c4c83a;}
+#shadow {filter: drop-shadow(rgb(0, 0, 0) 4px 4px 4px);}
+</style>
+
+<linearGradient id="linear-gradient" x1="0.5" y1="-0.5" x2="283.5" y2="284.5" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#b8681d"/>
+<stop offset="1" stop-color="#ece9d8"/>
+</linearGradient>
+
+</defs>
+
+<title>MECAFRAC_Light</title>
+
+<g id="background_05" data-name="background 05">
+<rect class="cls-1" width="283.46" height="283.46"/>
+</g>
+
+<g id="MECAFRAC_Light">
+<path  id="shadow" class="cls-2" d="M25.17,165a101.66,101.66,0,0,0,49.48,74.7L118.26,165Z"/>
+<path  id="shadow" class="cls-3" d="M177.36,63.77a101.79,101.79,0,0,0-152.68,78H131.85Z"/>
+<path  id="shadow" class="cls-2" d="M106.11,219.7a101.8,101.8,0,0,0,152.68-78H151.62Z"/>
+<path  id="shadow" class="cls-3" d="M208.82,43.75l-43.61,74.7h93.08A101.68,101.68,0,0,0,208.82,43.75Z"/>
+</g>
+
+</svg>
