@@ -1,6 +1,5 @@
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
-import * as path from 'node:path'
 
 const version = require('./package.json').version
 
