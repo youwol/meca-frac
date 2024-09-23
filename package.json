@@ -13,14 +13,10 @@
         "serve": "http-server -p 4000",
         "lint-check": "yarn lint-prettier-check && yarn lint-eslint-check",
         "lint-prettier-check": "prettier --check ./src",
-        "lint-eslint-check": "eslint './src/**/*.{js,jsx,ts,tsx}'"
+        "lint-eslint-check": "eslint  ./src"
     },
     "prettier": "@youwol/prettier-config",
     "eslintConfig": {
-        "parser": "@typescript-eslint/parser",
-        "parserOptions": {
-            "project": "./tsconfig.json"
-        },
         "extends": [
             "@youwol"
         ],
@@ -30,10 +26,35 @@
                     "*.ts",
                     "*.tsx"
                 ],
+                "extends": [
+                    "plugin:@typescript-eslint/recommended",
+                    "plugin:import/typescript"
+                ],
+                "parser": "@typescript-eslint/parser",
+                "parserOptions": {
+                    "tsconfigRootDir": "./",
+                    "project": [
+                        "./tsconfig.json"
+                    ]
+                },
+                "plugins": [
+                    "unused-imports",
+                    "@typescript-eslint"
+                ],
                 "rules": {
-                    "import/named": "off",
-                    "no-unused-vars": "off",
-                    "import/no-unresolved": "off"
+                    "@typescript-eslint/no-namespace": "off",
+                    "@typescript-eslint/no-unused-vars": "off",
+                    "unused-imports/no-unused-imports": "error",
+                    "unused-imports/no-unused-vars": [
+                        "error",
+                        {
+                            "vars": "all",
+                            "varsIgnorePattern": "^_",
+                            "args": "after-used",
+                            "argsIgnorePattern": "^_"
+                        }
+                    ],
+                    "@typescript-eslint/no-unnecessary-type-assertion": "error"
                 }
             }
         ]
