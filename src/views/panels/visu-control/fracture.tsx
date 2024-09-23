@@ -38,7 +38,7 @@ interface SelectorSectionProps {
 }
 
 export const FractureTab = () => {
-    const handleAddRoseElem = (newSection: { label: string; id: string }) => {}
+    const handleAddRoseElem = (_newSection: { label: string; id: string }) => {}
     return (
         <div>
             <SelectorSection
@@ -727,7 +727,7 @@ function createSynchronizedColorGradientWithWhiteBlack(
     const startHue = startHsl[0]
     const endHue = endHsl[0]
 
-    let hues = []
+    const hues = []
 
     if (startHue <= endHue) {
         for (let i = 0; i < numColors; i++) {

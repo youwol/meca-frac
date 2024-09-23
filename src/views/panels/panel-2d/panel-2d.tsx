@@ -13,7 +13,7 @@ import TrashIcon from '../../../assets/trash_icon.svg'
 import AddIcon from '../../../assets/add_icon.svg'
 
 import { Locker } from '../../../components/locker'
-// @ts-ignore
+
 import { RoseDiagram } from 'rose-diagram'
 import { ColorResult } from 'react-color'
 import { generateUniqueId } from '../../../utils/generateUniqueId'
@@ -57,7 +57,7 @@ const RoseSection = (props: {
     const sectionsRef = useRef<Section[]>([
         { id: 'initial-section', label: 'Initial Section' },
     ])
-    const [renderTrigger, setRenderTrigger] = useState<number>(0)
+    const [_renderTrigger, setRenderTrigger] = useState<number>(0)
     const [roseGroup, setRoseGroup] = useState<Section[]>([
         { id: 'initial-section', label: 'Well A' },
     ])

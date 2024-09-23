@@ -310,7 +310,7 @@ const NodeCircleSquare = () => {
 
 export function MeshSection() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [color, setColor] = useState<ColorResult>()
+    const [_color, setColor] = useState<ColorResult>()
     const handleDropdown = () => {
         setIsOpen(!isOpen)
     }

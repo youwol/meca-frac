@@ -8,7 +8,7 @@ import React, {
 
 const ActivePanelContext = createContext({
     activePanel: 'default',
-    setActivePanel: (panel: string) => {},
+    setActivePanel: (_panel: string) => {},
 })
 
 export function ActivePreferencesTabProvider(props: { children: ReactNode }) {
