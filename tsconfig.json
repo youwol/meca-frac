@@ -1,18 +1,20 @@
 {
-  "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "jsx": "react",
-    "baseUrl": "./src",
-    "paths": {
-      "*": ["*", "src/*"],
+    "extends": "@youwol/tsconfig/tsconfig.json",
+    "compilerOptions": {
+        "target": "es2016",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "jsx": "react",
+        "baseUrl": "./src",
+        "paths": {
+            "*": ["*", "src/*"],
+        },
+        "moduleResolution": "node",
+        "typeRoots": ["node_modules/@types"],
     },
-    "moduleResolution": "node",
-    "typeRoots": ["node_modules/@types"],
-    "include": ["src/**/*.ts", "src/**/*.tsx"],
-  },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "public"],
 }
