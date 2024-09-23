@@ -1,7 +1,6 @@
 import { defineConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
-
-const version = require('./package.json').version
+import { version } from './package.json'
 
 export default defineConfig({
     plugins: [pluginReact()],
