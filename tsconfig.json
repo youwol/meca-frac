@@ -15,6 +15,6 @@
         "moduleResolution": "node",
         "typeRoots": ["node_modules/@types"]
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "rsbuild.config.ts"],
     "exclude": ["node_modules", "dist", "public"]
 }
