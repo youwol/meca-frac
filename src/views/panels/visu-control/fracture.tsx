@@ -31,6 +31,10 @@ import {
     createDivAtCursor,
     generateUniqueId,
 } from '../../../utils/generateUniqueId'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import { updateFractureSection } from '../../../redux/fracture-slice'
+import { EdgesGeometry, LineBasicMaterial, LineSegments } from 'three'
 
 interface SelectorSectionProps {
     placeHolder: string
@@ -67,7 +71,53 @@ const SelectorSection = ({
 }: SelectorSectionProps) => {
     const [inputValue, setInputValue] = useState('')
     const [lock, setLock] = useState(false)
+    const [selectorActive, setSelectorActive] = useState<boolean>(false)
+    const fractureData = useSelector(
+        (state: RootState) => state.fracture.sections,
+    )
+    const treeData = useSelector((state: RootState) => state.treeView.treeData)
 
+    useEffect(() => {
+        treeData
+            .filter((node) => node.selectedObject === true)
+            .forEach((node) => {
+                const { size, sizeType, max, min } = fractureData.shape
+
+                const borderColor = (fractureData.border.color as ColorResult)
+                    .hex
+
+                if (sizeType === 'uniform') {
+                    node.mesh.scale.set(
+                        size as number,
+                        size as number,
+                        size as number,
+                    )
+                } else if (sizeType === 'attribute') {
+                    const scale = Math.random() * (+max - +min) + +min
+                    node.mesh.scale.set(scale, scale, scale)
+                }
+
+                const borderMaterial = new LineBasicMaterial({
+                    color: borderColor,
+                    linewidth: fractureData.border.thickness as number,
+                })
+                const borderGeometry = new EdgesGeometry(node.mesh.geometry)
+                const borderMesh = new LineSegments(
+                    borderGeometry,
+                    borderMaterial,
+                )
+
+                if (selectorActive) {
+                    node.mesh.add(borderMesh)
+                } else {
+                    return () => node.mesh.remove(borderMesh)
+                }
+            })
+    }, [treeData, fractureData, selectorActive])
+
+    const handleFractureSelector = () => {
+        setSelectorActive(!selectorActive)
+    }
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
         setInputValue(e.target.value)
 
@@ -88,11 +138,15 @@ const SelectorSection = ({
             className={`d-flex justify-content-evenly align-items-center ${isLocked ? 'not-allowed' : 'pointer'}`}
             style={{ color: isLocked ? '#8C876E' : 'inherit' }}
         >
-            <button className="p-0 bg-transparent border-0" disabled={isLocked}>
+            <button
+                className={`p-0 bg-transparent border-0 ${selectorActive ? 'spinner-grow' : ''}`}
+                disabled={isLocked}
+            >
                 <SvgIcon
                     icon={isLocked ? LockPickerIcon : PickerIcon}
                     w="30px"
                     h="30px"
+                    onclick={handleFractureSelector}
                 />
             </button>
             <div className="ms-3">
@@ -159,30 +213,33 @@ const FractureTypeSection = () => {
 
 const FractionAngleSlider = () => {
     const { min, max } = { min: 0, max: 360 }
+    const dispatch = useDispatch()
 
-    const { kHValue, lastKHValidValue, setKHValue, setLastKHValidValue } =
-        useKHContext()
+    const fractureModel = useSelector(
+        (state: RootState) => state.fracture.sections.type,
+    )
 
     const handleRangeChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setKHValue(+event.target.value)
+        const newFrictionAngle = +event.target.value
+
+        dispatch(
+            updateFractureSection({
+                sectionName: 'type',
+                data: { frictionAngle: newFrictionAngle },
+            }),
+        )
     }
-    const handleChange = factoryHandleChange(
-        setKHValue,
-        lastKHValidValue,
-        setLastKHValidValue,
-        min,
-        max,
-    )
+
     return (
         <RangeSlider
-            value={kHValue}
+            value={(fractureModel.frictionAngle as number) ?? 0}
             title={'Fraction Angle(°)'}
             min={min}
             max={max}
-            step={1}
+            step={0.1}
             lock={{ isLocked: false }}
             handleRangeChange={handleRangeChange}
-            handleChange={handleChange}
+            handleChange={() => {}}
         >
             <div>
                 <title>FRACTURE TYPES</title>
@@ -485,7 +542,9 @@ const SizeFromAttr = () => {
 
 export function BorderSection() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const dispatch = useDispatch()
     const { color, setColor } = useSurfaceColorContext()
+
     const handleDropdown = () => {
         setIsOpen(!isOpen)
     }
@@ -505,6 +564,15 @@ export function BorderSection() {
         setColor(initColor)
     }, [setColor])
 
+    const handleColorChange = (c: ColorResult) => {
+        dispatch(
+            updateFractureSection({
+                sectionName: 'border',
+                data: { color: c },
+            }),
+        )
+    }
+
     return (
         <>
             <ItemDropdownBanner
@@ -515,7 +583,7 @@ export function BorderSection() {
                 <CircleColorSection
                     title={'Border'}
                     initColor={color}
-                    setColor={(c) => setColor(c)}
+                    setColor={handleColorChange}
                 />
             </ItemDropdownBanner>
             <ItemDropdown class={!isOpen ? 'd-none' : ''}>
@@ -529,15 +597,24 @@ export function BorderSection() {
 
 const ThicknessSection = () => {
     const { min, max } = { min: 0, max: 10 }
+    const dispatch = useDispatch()
+    const fractureBorder = useSelector(
+        (state: RootState) => state.fracture.sections.border,
+    )
 
     const {
-        transparencyValue,
         lastTransparencyValidValue,
         setTransparencyValue,
         setLastTransparencyValidValue,
     } = useTransparencyContext()
     const handleRangeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTransparencyValue(+event.target.value)
+        dispatch(
+            updateFractureSection({
+                sectionName: 'border',
+                data: { thickness: +event.target.value },
+            }),
+        )
     }
     const handleChange = factoryHandleChange(
         setTransparencyValue,
@@ -548,7 +625,7 @@ const ThicknessSection = () => {
     )
     return (
         <RangeSlider
-            value={transparencyValue}
+            value={fractureBorder.thickness as number}
             title={'Thickness'}
             min={min}
             max={max}

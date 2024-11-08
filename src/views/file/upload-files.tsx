@@ -1,25 +1,30 @@
 import { NavDropdown } from 'react-bootstrap'
 import React, { useEffect } from 'react'
 import { loadObject } from '../../components/loaders/load-object'
-import { useDataFrameContext } from '../../context/data-frames/data-frame-context'
+import { useDispatch } from 'react-redux'
+import { appendDataFrameValue, setLoading } from '../../redux/dataFrame-slice'
+import { meshesArray } from '../panels/scene/canvas-container'
+import { setTreeData } from '../../redux/tree-view-slice'
 
 export function UploadFiles() {
-    const { setLoading, appendDataframeValue } = useDataFrameContext()
+    const dispatch = useDispatch()
+
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0]
-
             try {
-                setLoading(true)
+                dispatch(setLoading(true))
                 const buffer = await file.text()
                 const dfs = await loadObject(file.name, buffer)
-                appendDataframeValue(dfs)
+                const newMesh = meshesArray(dfs)
+                dispatch(appendDataFrameValue(dfs))
+                dispatch(setTreeData(newMesh))
             } catch (error) {
                 console.error('Error loading object:', error)
             } finally {
-                setLoading(false)
+                dispatch(setLoading(false))
             }
         }
     }
@@ -47,7 +52,6 @@ export function UploadFiles() {
             window.removeEventListener('keydown', handleKeyDown)
         }
     }, [])
-
     return (
         <NavDropdown.Item
             className={'d-flex justify-content-between'}
