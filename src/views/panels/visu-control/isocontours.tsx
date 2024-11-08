@@ -11,18 +11,15 @@ import PreferencesIcon from '../../../assets/preferences_icon_dark.svg'
 import { RadioOption } from '../../../components/radio-option'
 import { useShapeContext } from '../../../context/display-panel/basic/shape'
 import { RangeSlider } from '../../../components/range-slider'
-import {
-    useSurfaceColorContext,
-    useTransparencyContext,
-} from '../../../context/display-panel/basic/surface'
+import { useTransparencyContext } from '../../../context/display-panel/basic/surface'
 import { factoryHandleChange } from '../model-control/remote-stress'
-import {
-    useNodeColorContext,
-    useSizeContext,
-} from '../../../context/display-panel/basic/nodes'
+import { useSizeContext } from '../../../context/display-panel/basic/nodes'
 import { CustomInput } from '../../../components/custom-input'
 import ResizableDraggablePopup from '../../../components/custom-popup'
 import { ColorResult } from 'react-color'
+import { updateBasicSection } from '../../../redux/basic-slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../../redux/store'
 
 export function FillSection() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -50,25 +47,24 @@ export function FillSection() {
 
 export function SurfaceSection() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const { color, setColor } = useSurfaceColorContext()
+
+    const dispatch: AppDispatch = useDispatch()
+    const surfaceSection = useSelector(
+        (state: RootState) => state.basic.sections.surface,
+    )
+
     const handleDropdown = () => {
         setIsOpen(!isOpen)
     }
 
-    const initColor = {
-        hex: '#fda1ff',
-        hsl: {
-            a: 1,
-            h: 112.19040697674419,
-            l: 0.47846099999999997,
-            s: 0.1974296755639436,
-        },
-        rgb: { r: 253, g: 161, b: 255, a: 1 },
+    const handleColor = (c: ColorResult) => {
+        dispatch(
+            updateBasicSection({
+                sectionName: 'surface',
+                data: { color: c },
+            }),
+        )
     }
-
-    useEffect(() => {
-        setColor(initColor)
-    }, [setColor])
 
     return (
         <>
@@ -79,8 +75,8 @@ export function SurfaceSection() {
             >
                 <CircleColorSection
                     title={'Surface'}
-                    initColor={color}
-                    setColor={(c) => setColor(c)}
+                    initColor={surfaceSection.color as ColorResult}
+                    setColor={handleColor}
                 />
             </ItemDropdownBanner>
             <ItemDropdown class={!isOpen ? 'd-none' : ''}>
@@ -191,25 +187,22 @@ const SurfaceProperties = () => {
 
 export function NodesSection() {
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const { color, setColor } = useNodeColorContext()
-
+    const dispatch = useDispatch()
+    const nodesSection = useSelector(
+        (state: RootState) => state.basic.sections.nodes,
+    )
     const handleDropdown = () => {
         setIsOpen(!isOpen)
     }
 
-    const initColor = {
-        hex: '#fda1ff',
-        hsl: {
-            a: 1,
-            h: 112.19040697674419,
-            l: 0.47846099999999997,
-            s: 0.1974296755639436,
-        },
-        rgb: { r: 253, g: 161, b: 255, a: 1 },
+    const handleNodeColor = (c: ColorResult) => {
+        dispatch(
+            updateBasicSection({
+                sectionName: 'nodes',
+                data: { color: c },
+            }),
+        )
     }
-    useEffect(() => {
-        setColor(initColor)
-    }, [setColor])
 
     return (
         <>
@@ -220,8 +213,8 @@ export function NodesSection() {
             >
                 <CircleColorSection
                     title={'Nodes'}
-                    initColor={color}
-                    setColor={setColor}
+                    initColor={nodesSection.color as ColorResult}
+                    setColor={handleNodeColor}
                 />
             </ItemDropdownBanner>
             <ItemDropdown class={!isOpen ? 'd-none' : ''}>

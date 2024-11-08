@@ -21,9 +21,7 @@ export function RecentFiles() {
             const blob = new Blob([file.path], { type: 'text/plain' })
 
             const reader = new FileReader()
-            reader.onload = () => {
-                //
-            }
+
             reader.onerror = (error) => {
                 console.error('Error reading file:', error)
             }

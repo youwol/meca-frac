@@ -24,8 +24,10 @@ export function SvgIcon(props: {
     let fillColor
     if (fill === 'red') {
         fillColor = red
-    } else {
+    } else if (fill === 'green') {
         fillColor = green
+    } else {
+        fillColor = fill
     }
 
     const fillValue = fill ? fillColor : ' '
